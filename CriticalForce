@@ -1,0 +1,3 @@
+function N = CriticalForce(D,a,b,m,n)
+N = -(D*pi^2/a.^2)*(m + n.*(n./m).*(a./b).^2).^2;
+end
