@@ -1,0 +1,26 @@
+clc
+clear
+close all
+
+
+dimention_ratio = [1 3 4]; %a/b
+
+m = [1 2 3 4];
+
+N_ratio = [0:0.05:1];
+w_ratio = ones([length(dimention_ratio),length(m),length(N_ratio)]);
+
+figure(1);
+
+for i=1:length(dimention_ratio)
+    for j=1:length(m)
+       w_ratio(i,j,:) = -(m(j)^4/4)*((1+dimention_ratio(i)^2)^2)*(N_ratio - 1);
+       legends = ['m = ' num2str(m(j)) ' , a/b = ' num2str(dimention_ratio(i))];
+       plot(N_ratio,reshape(w_ratio(i,j,:),1,[]),'DisplayName',legends);
+       hold on
+    end
+end
+
+legend
+xlabel('N_x/(N_x)_C')
+ylabel('\omega_m/\omega_r')
