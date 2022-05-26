@@ -1,0 +1,44 @@
+clc
+clear
+close all
+
+E = 207E9; %Elasticity module
+neu = 0.291; %Poisson's ratio
+gamma = 76.5; %Unit weight in kN/m3
+
+g = 9.81;
+ro = gamma*1000/g; %Density in Kg/m3
+
+%Dimensions of rectangle in meter
+a = 1;
+b = 1;
+h = 10E-3;
+
+D = E*h^3/(12*(1-neu^2));
+
+%Variables m, n = 1, 2, 3, ...
+m = 1;
+n = 1;
+
+%Critical in plan forces
+Nx_cr = CriticalForce(D,a,b,m,n);
+Ny_cr = CriticalForce(D,b,a,n,m);
+
+%In plan forces
+Nx = [0,-100,Nx_cr];
+Ny = 0;
+
+w_ref2 = 4*D*pi^4/(ro*h*a^4);
+w_mn2 = (1/(ro*h))*(D*((m*pi/a).^2 + (n*pi/b)^2).^2) + (Nx*(m*pi/a).^2 + Ny*(n*pi/b)^2);
+
+w_ref = real(sqrt(w_ref2));
+w_mn = real(sqrt(w_mn2));
+
+
+figure(1)
+plot(Nx/Nx_cr,w_ref*ones([1,length(Nx)]))
+hold on
+plot(Nx/Nx_cr,w_mn)
+legend('\omega_r','\omega_m')
+xlabel('N_x/(N_x)_C')
+ylabel('\omega')
